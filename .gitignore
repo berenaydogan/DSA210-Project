@@ -1,0 +1,17 @@
+# OS metadata
+.DS_Store
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+venv/
+env/
+
+# Jupyter metadata
+.ipynb_checkpoints/
+
+# Raw source data downloaded locally
+data/_archives/
+data/20??-??/
