@@ -1,0 +1,22 @@
+raw_column,english_name,description
+BETRIEBSTAG,service_date,Service date
+FAHRT_BEZEICHNER,trip_id,Journey identifier
+BETREIBER_ID,operator_id,Operator identifier
+BETREIBER_ABK,operator_abbr,Operator abbreviation
+BETREIBER_NAME,operator_name,Operator name
+PRODUKT_ID,product_type,"Product type, e.g. train"
+LINIEN_ID,line_id,Line identifier
+LINIEN_TEXT,line_name,Line text label
+UMLAUF_ID,circulation_id,Circulation/run identifier
+VERKEHRSMITTEL_TEXT,vehicle_text,Vehicle text label
+ZUSATZFAHRT_TF,is_extra_trip,Extra trip flag
+FAELLT_AUS_TF,is_cancelled,Cancellation flag
+BPUIC,stop_uic,Stop UIC/BPUIC code
+HALTESTELLEN_NAME,stop_name,Stop name
+ANKUNFTSZEIT,scheduled_arrival,Scheduled arrival timestamp
+AN_PROGNOSE,predicted_arrival,Predicted or actual arrival timestamp
+AN_PROGNOSE_STATUS,arrival_prediction_status,Arrival prediction status
+ABFAHRTSZEIT,scheduled_departure,Scheduled departure timestamp
+AB_PROGNOSE,predicted_departure,Predicted or actual departure timestamp
+AB_PROGNOSE_STATUS,departure_prediction_status,Departure prediction status
+DURCHFAHRT_TF,is_pass_through,Pass-through flag
