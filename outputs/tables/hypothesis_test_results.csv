@@ -1,0 +1,12 @@
+hypothesis_id,hypothesis,analysis_unit,analysis_n,groups,test,statistic_name,statistic,dof,p_value,reject_0_05,decision
+H1,Delay rate differs by scheduled arrival hour,arrival,90818,24,chi_square,chi2,1679.6181104964235,23,0.0,True,Reject null hypothesis
+H2,Delay rate differs by day of week,arrival,90818,7,chi_square,chi2,415.89073222729826,6,1.0703366568033177e-86,True,Reject null hypothesis
+H3,Delay rate differs by month,arrival,90818,4,chi_square,chi2,52.36706503637304,3,2.5013432849797953e-11,True,Reject null hypothesis
+H4,Delay rate differs by weekend status,arrival,90818,2,chi_square,chi2,369.8438922106362,1,2.0238747355485647e-82,True,Reject null hypothesis
+H5,Delay rate differs by train type,arrival,90818,9,chi_square,chi2,3575.2218173175047,8,0.0,True,Reject null hypothesis
+H6,Delay rate differs across line names,arrival,90818,27,chi_square,chi2,4883.740364638295,26,0.0,True,Reject null hypothesis
+H7,Delay rate differs across operators,arrival,90818,2,chi_square,chi2,1.6325484934224344,1,0.20135091817706519,False,Do not reject null hypothesis
+H8,Hourly delay rate differs across temperature groups,weather_hour,2743,4,one_way_anova,F,16.95532382515638,"3, 2739",6.538452437366234e-11,True,Reject null hypothesis
+H9,Hourly delay rate differs between rainy and dry hours,weather_hour,2743,2,one_way_anova,F,84.76444081282784,"1, 2741",6.485386148210087e-20,True,Reject null hypothesis
+H10,Hourly delay rate differs between snowy and non-snowy hours,weather_hour,2743,2,one_way_anova,F,0.030440528670254267,"1, 2741",0.8615073068363442,False,Do not reject null hypothesis
+H11,Hourly delay rate differs across wind speed groups,weather_hour,2743,4,one_way_anova,F,7.868834932864136,"3, 2739",3.161735779512002e-05,True,Reject null hypothesis
