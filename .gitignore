@@ -15,3 +15,6 @@ env/
 # Raw source data downloaded locally
 data/_archives/
 data/20??-??/
+
+# Project guidelines
+DSA210_Spring2026_ProjectGuidelines.pdf
