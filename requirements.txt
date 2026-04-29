@@ -6,3 +6,4 @@ pandas>=2.2
 scikit-learn>=1.5
 scipy>=1.13
 seaborn>=0.13
+xgboost>=2.0
