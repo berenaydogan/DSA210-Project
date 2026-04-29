@@ -1,0 +1,13 @@
+hypothesis_id,hypothesis,tested_variable,analysis_unit,analysis_n,groups,test,statistic_name,statistic,dof,p_value,reject_0_05,decision,feature_column,keep_feature
+H1,Delay rate differs by scheduled arrival hour,scheduled_arrival_hour,arrival,72654,24,chi_square,chi2,1347.0068089719796,23,1.3490980940606931e-270,True,Reject null hypothesis,scheduled_arrival_hour,True
+H2,Delay rate differs by day of week,scheduled_arrival_weekday_name,arrival,72654,7,chi_square,chi2,308.1759038957135,6,1.4474278451044993e-63,True,Reject null hypothesis,scheduled_arrival_weekday_name,True
+H3′,Delay rate differs by season,season,arrival,72654,4,chi_square,chi2,41.8524073322514,3,4.312147865587384e-09,True,Reject null hypothesis,season,True
+H4,Delay rate differs by weekend status,is_weekend,arrival,72654,2,chi_square,chi2,273.9938279671526,1,1.5293083059674991e-61,True,Reject null hypothesis,is_weekend,True
+H5,Delay rate differs by train type,train_type,arrival,72654,9,chi_square,chi2,2845.9794489311853,8,0.0,True,Reject null hypothesis,train_type,True
+H6,Delay rate differs across line names,line_name,arrival,72654,26,chi_square,chi2,3862.549792228187,25,0.0,True,Reject null hypothesis,line_name,True
+H7,Delay rate differs across operators,operator,arrival,72654,2,chi_square,chi2,1.3037176268406294,1,0.2535352713064291,False,Do not reject null hypothesis,operator,False
+H8,Hourly delay rate differs across temperature groups,temperature_group,weather_hour,2728,4,one_way_anova,F,13.23021972610244,"3, 2724",1.4199755211933736e-08,True,Reject null hypothesis,temperature_2m,True
+H9,Hourly delay rate differs between rainy and dry hours,rainy_hour,weather_hour,2728,2,one_way_anova,F,76.91527361385464,"1, 2726",3.081856404096083e-18,True,Reject null hypothesis,precipitation,True
+H10,Hourly delay rate differs between snowy and non-snowy hours,snowy_hour,weather_hour,2728,2,one_way_anova,F,0.35608835588706866,"1, 2726",0.550736282386862,False,Do not reject null hypothesis,snowfall,False
+H11,Hourly delay rate differs across wind speed groups,wind_speed_group,weather_hour,2728,4,one_way_anova,F,5.249869778497124,"3, 2724",0.0013020275687856467,True,Reject null hypothesis,wind_speed_10m,True
+H12,Delay rate differs across stations,stop_name,arrival,72654,4,chi_square,chi2,2107.2316170590784,3,0.0,True,Reject null hypothesis,stop_name,True

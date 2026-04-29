@@ -1,0 +1,11 @@
+feature,group,p_value
+is_weekend,binary_passthrough,1.5293083059674991e-61
+line_name,categorical_onehot,0.0
+precipitation,continuous_scaled,3.081856404096083e-18
+scheduled_arrival_hour,categorical_onehot,1.3490980940606931e-270
+scheduled_arrival_weekday_name,categorical_onehot,1.4474278451044993e-63
+season,categorical_onehot,4.312147865587384e-09
+stop_name,categorical_onehot,0.0
+temperature_2m,continuous_scaled,1.4199755211933736e-08
+train_type,categorical_onehot,0.0
+wind_speed_10m,continuous_scaled,0.0013020275687856467
