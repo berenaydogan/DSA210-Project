@@ -1,0 +1,7 @@
+model,best_params,cv_best_score,scoring_metric
+baseline_majority,{},,accuracy
+logistic_regression,"{'clf__alpha': 0.001, 'clf__penalty': 'l2'}",0.6293665662840198,accuracy
+knn,"{'clf__metric': 'manhattan', 'clf__n_neighbors': 101, 'clf__weights': 'uniform'}",0.630123595078287,accuracy
+decision_tree,"{'clf__criterion': 'gini', 'clf__max_depth': 10, 'clf__min_samples_leaf': 50}",0.6293390787136011,accuracy
+random_forest,"{'clf__criterion': 'gini', 'clf__max_depth': 10, 'clf__n_estimators': 300}",0.6342252458528632,accuracy
+xgboost,"{'clf__learning_rate': 0.1, 'clf__max_depth': 6, 'clf__n_estimators': 100}",0.6412998178467726,accuracy
