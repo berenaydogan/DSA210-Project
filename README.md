@@ -1,6 +1,6 @@
 # DSA210 Project: Train Delay Analysis in Lausanne
 
-This project studies how operational, temporal, and weather factors relate to train delays in the Lausanne area and turns raw SBB arrival data into an analysis-ready dataset for exploratory analysis and formal hypothesis testing.
+This project studies how operational, temporal, and weather factors relate to train delays in the Lausanne area, turns raw SBB arrival data into an analysis-ready dataset for exploratory analysis and formal hypothesis testing, and finally trains and compares supervised classifiers that predict whether a Lausanne train arrival is delayed.
 
 ## Motivation
 
@@ -32,9 +32,11 @@ DSA210-Project/
 ├── notebooks/
 │   ├── data_collection.ipynb
 │   ├── eda.ipynb
-│   └── hypothesis_testing.ipynb
+│   ├── hypothesis_testing.ipynb
+│   └── ml_modeling.ipynb
 ├── data/
 │   ├── processed/
+│   │   └── ml_stratified_5folds/
 │   └── weather/
 ├── outputs/
 │   ├── figures/
@@ -46,25 +48,27 @@ DSA210-Project/
 ```
 
 - [notebooks/](notebooks)
-  Contains the three main project notebooks in run order.
+  Contains the four main project notebooks in run order.
 - [notebooks/data_collection.ipynb](notebooks/data_collection.ipynb)
   Collects, filters, translates, enriches, and merges the raw train and weather data.
 - [notebooks/eda.ipynb](notebooks/eda.ipynb)
   Produces the descriptive analysis and saved figures.
 - [notebooks/hypothesis_testing.ipynb](notebooks/hypothesis_testing.ipynb)
   Runs the formal statistical tests and exports the result tables.
+- [notebooks/ml_modeling.ipynb](notebooks/ml_modeling.ipynb)
+  Splits the data, re-runs feature-selection tests on the training set, tunes six classifiers with 5-fold cross-validation, evaluates them once on a test set, and exports the best performing model.
 - [data/](data)
   Stores the project datasets.
 - [data/processed](data/processed)
-  Contains the processed train tables, the translation table, and the final merged dataset.
+  Contains the processed train tables, the translation table, the final merged dataset, the stratified 80/20 ML split, and the five cross-validation folds under `data/processed/ml_stratified_5folds/`.
 - [data/weather](data/weather)
   Contains the hourly Lausanne weather data used in the merge.
 - [outputs/](outputs)
   Stores generated analysis artifacts.
 - [outputs/figures](outputs/figures)
-  Contains saved EDA figures.
+  Contains saved EDA figures and the ML modeling figures.
 - [outputs/tables](outputs/tables)
-  Contains the exported hypothesis catalog and hypothesis test results.
+  Contains the exported hypothesis catalog, hypothesis test results, and the ML modeling tables.
 - [AI_USAGE.md](AI_USAGE.md)
   Records AI assistance, representative prompts, and review decisions.
 
@@ -78,6 +82,8 @@ Run the notebooks in this order:
    Profiles the merged dataset and saves the descriptive figures used to motivate the formal tests.
 3. [hypothesis_testing.ipynb](notebooks/hypothesis_testing.ipynb)
    Tests the strongest temporal, operational, and weather patterns and exports the final result tables.
+4. [ml_modeling.ipynb](notebooks/ml_modeling.ipynb)
+   Builds the stratified 80/20 split and the five cross-validation folds, re-runs the hypothesis tests on training data only to select features, tunes Logistic Regression with SGD, k-Nearest Neighbors, Decision Tree, Random Forest, and XGBoost against a Majority-class baseline, evaluates each model once on the test set, and exports the best model.
 
 ## Reproduction
 
@@ -113,9 +119,12 @@ Project artifacts kept in the repo:
 - `data/processed/lausanne_arrivals_filtered.csv`
 - `data/processed/lausanne_arrivals.csv`
 - `data/processed/dataset_final.csv`
+- `data/processed/ml_stratified_80_20_train.csv`
+- `data/processed/ml_stratified_80_20_test.csv`
+- `data/processed/ml_stratified_5folds/fold_0X_{train,validation}.csv`
 - `data/weather/lausanne_hourly_weather.csv`
-- figures under `outputs/figures/`
-- tables under `outputs/tables/`
+- figures under `outputs/figures/`: `eda_*.png` (descriptive analysis figures), `ml_split_distribution.png`, `ml_hp_<model>.png` (one per tuned model), `ml_confusion_matrices.png`, `ml_roc_curves.png`, `ml_decision_tree.png`
+- tables under `outputs/tables/`: `hypothesis_catalog.csv`, `hypothesis_test_results.csv`, `ml_split_summary.csv`, `ml_training_hypothesis_test_results.csv`, `ml_selected_features.csv`, `ml_best_hyperparams.csv`, `ml_model_metrics.csv`, `ml_logistic_coefficients.csv`, `ml_best_model.csv`
 
 Some rebuildable files are intentionally ignored:
 
