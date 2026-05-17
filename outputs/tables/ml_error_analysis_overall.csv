@@ -1,0 +1,8 @@
+metric,value
+true_negatives,6037.0
+false_positives,3515.0
+false_negatives,2885.0
+true_positives,5727.0
+accuracy,0.6476547016075754
+false_positive_share,0.19351464435146443
+false_negative_share,0.15883065404096014
