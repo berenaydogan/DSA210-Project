@@ -10,6 +10,10 @@ Train delays affect commuter planning, platform usage, and overall service relia
 
 Which operational, temporal, and weather features are associated with higher train delay rates in Lausanne, and which of those patterns remain statistically significant under formal hypothesis tests?
 
+## Project Website
+
+Presentation website: <https://berenaydogan.github.io/DSA210-Project/>
+
 ## Data Sources
 
 - SBB/CFF actual transport data: <https://data.opentransportdata.swiss/en/dataset/istdaten>
@@ -41,6 +45,8 @@ DSA210-Project/
 ├── outputs/
 │   ├── figures/
 │   └── tables/
+├── docs/
+│   └── index.html
 ├── AI_USAGE.md
 ├── README.md
 ├── Project_Proposal.pdf

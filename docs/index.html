@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="DSA210 project presentation website for train delay analysis and prediction in Lausanne.">
+    <title>Train Delay Analysis and Prediction in Lausanne</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="Train delay project home">
+        <span class="brand-mark" aria-hidden="true">LD</span>
+        <span>Lausanne Delays</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="#introduction">Intro</a>
+        <a href="#motivation">Motivation</a>
+        <a href="#data">Data</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#findings">Findings</a>
+        <a href="#modeling">Model</a>
+        <a href="#errors">Errors</a>
+        <a href="#future">Next</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="top" aria-label="Project summary">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="eyebrow">DSA210 Spring 2026 Project</p>
+        <h1>Train Delay Analysis and Prediction in Lausanne</h1>
+        <p class="hero-question">
+          Which operational, temporal, and weather features are associated with
+          higher train delay rates in Lausanne, and how well can those features
+          predict whether a specific arrival will be delayed?
+        </p>
+        <div class="hero-actions" aria-label="Project links">
+          <a class="button primary" href="https://github.com/berenaydogan/DSA210-Project">GitHub repository</a>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <section class="section intro-band" id="introduction">
+        <div class="section-grid">
+          <div>
+            <p class="eyebrow">Introduction</p>
+            <h2>Train delay analysis and prediction in Lausanne.</h2>
+          </div>
+          <div class="section-copy">
+            <p>
+              This project studies whether temporal, operational, and weather
+              factors are associated with train delays in the Lausanne area and
+              whether those factors can support a supervised model for delay
+              prediction. I combine SBB/CFF Istdaten train-arrival records with
+              hourly Open-Meteo weather observations, construct a 90,818-row
+              analysis dataset, run hypothesis tests, and compare six
+              classifiers.
+            </p>
+            <p>
+              The strongest statistical differences are linked to scheduled
+              hour, weekday, season, weekend status, train type, line, station,
+              rain, temperature group, and wind group. XGBoost performs best
+              among the tested models, reaching 0.648 test accuracy, 0.642
+              delayed-class F1, and 0.710 ROC-AUC.
+            </p>
+            <p>
+              Error analysis shows that the model is most uncertain around
+              specific busy or transition periods: the 19:00 hour has the
+              highest hour-level error rate, rush periods create many false
+              delay alarms, and midday hours miss a larger share of true delays.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-band" id="motivation">
+        <div class="section-grid">
+          <div>
+            <p class="eyebrow">Motivation</p>
+            <h2>Train delays affect daily mobility at a city scale.</h2>
+          </div>
+          <div class="section-copy">
+            <p>
+              Train delays are small events individually, but they affect daily
+              mobility at a city scale. A few minutes of delay can change
+              transfer plans, crowd platforms, and make a timetable feel less
+              reliable to commuters. Lausanne is a useful case study because it
+              has a mix of local, regional, intercity, and international train
+              services, and because the station area is exposed to seasonal
+              weather changes.
+            </p>
+            <p>
+              The project is also personally relevant because I will start my
+              doctoral studies in Lausanne next year, so understanding the
+              reliability of the local rail network connects directly to the
+              city I am about to live and work in.
+            </p>
+            <p>
+              The first part of the question is explanatory: it focuses on
+              patterns that can be described and tested statistically. The
+              second part is predictive: it asks whether those same patterns can
+              be used to construct a machine learning model for predicting
+              delays.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="data">
+        <div class="section-heading">
+          <p class="eyebrow">Data source and collection</p>
+          <h2>SBB/CFF Istdaten enriched with Open-Meteo weather.</h2>
+          <p>
+            The main data source is SBB/CFF Istdaten, the public
+            actual-transport dataset published through OpenTransportData
+            Switzerland. I enriched the train records with Open-Meteo historical
+            hourly weather data for Lausanne.
+          </p>
+        </div>
+        <div class="info-grid data-source-grid">
+          <article class="info-card">
+            <h3>Train records</h3>
+            <p>
+              The raw records contain planned and actual or predicted arrival
+              and departure times, operator fields, line information, station
+              names, and train descriptors. I used the official archive index to
+              collect daily CSV files from four 30-day windows: January, April,
+              July, and October 2025.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Weather enrichment</h3>
+            <p>
+              The weather fields used in the final dataset are temperature,
+              precipitation, snowfall, and wind speed. Each train arrival is
+              matched to the weather observation from the same scheduled date
+              and scheduled arrival hour.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Final dataset</h3>
+            <p>
+              After filtering, feature engineering, and weather merging, the
+              final dataset has 90,818 arrival-level rows and 21 columns. The
+              target variable is delayed, where 1 means the predicted arrival
+              time is later than the scheduled arrival time.
+            </p>
+          </article>
+        </div>
+
+        <div class="pipeline" aria-label="Analysis pipeline">
+          <div><span>01</span> Collect and filter</div>
+          <div><span>02</span> Engineer features</div>
+          <div><span>03</span> Explore patterns</div>
+          <div><span>04</span> Test hypotheses</div>
+          <div><span>05</span> Train models</div>
+          <div><span>06</span> Analyze errors</div>
+        </div>
+      </section>
+
+      <section class="section" id="analysis">
+        <div class="section-heading">
+          <p class="eyebrow">Data analysis pipeline</p>
+          <h2>Four reproducible notebooks.</h2>
+          <p>
+            The analysis is organized as four reproducible notebooks. Each
+            notebook writes its outputs to the repository so later stages can be
+            inspected without rerunning the entire pipeline.
+          </p>
+        </div>
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Data Preparation</h3>
+            <p>
+              The first notebook, data_collection.ipynb, performs data
+              collection, filtering, translation, feature engineering, weather
+              collection, and the final merge.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Exploratory Data Analysis</h3>
+            <p>
+              The second notebook, eda.ipynb, profiles the dataset and
+              visualizes delay patterns by time, service structure, and weather.
+              Since the target is binary, most descriptive plots use the mean of
+              delayed as the delay rate.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Hypothesis Testing</h3>
+            <p>
+              The third notebook, hypothesis_testing.ipynb, turns the strongest
+              EDA patterns into formal tests. Categorical features are tested
+              with chi-square independence tests.
+            </p>
+          </article>
+          <article class="info-card">
+            <h3>Machine Learning</h3>
+            <p>
+              The fourth notebook, ml_modeling.ipynb, creates an 80/20
+              train/test split stratified by the joint season x delayed key,
+              repeats hypothesis tests on the training data only for feature
+              selection, compares six models, and analyzes test set errors.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section alt" id="findings">
+        <div class="section-heading">
+          <p class="eyebrow">Findings</p>
+          <h2>Descriptive patterns and hypothesis test results.</h2>
+          <p>
+            The dataset is close to balanced: 47.4% of arrivals are delayed and
+            52.6% are on time or early. Delay rates vary visibly across
+            scheduled hour, weekday, train type, line, and station.
+          </p>
+          <p>
+            At the 0.05 level, the project rejects the null hypothesis for
+            scheduled arrival hour, weekday, season, weekend status, train type,
+            line name, temperature group, rainy versus dry hour, wind speed
+            group, and station. The tests do not reject the operator comparison
+            or the snowy versus non-snowy hour comparison.
+          </p>
+        </div>
+        <div class="figure-grid">
+          <figure class="figure-card">
+            <img src="assets/figures/eda_delay_rate_by_hour.png" alt="Bar chart of delay rate by scheduled arrival hour." loading="lazy">
+            <figcaption>By hour.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/figures/eda_delay_rate_by_weekday.png" alt="Bar chart of delay rate by weekday." loading="lazy">
+            <figcaption>By weekday.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/figures/eda_delay_rate_by_train_type.png" alt="Bar chart of delay rate by train type." loading="lazy">
+            <figcaption>By train type.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/figures/eda_delay_rate_dry_vs_rainy.png" alt="Comparison of delay rate for dry and rainy hours." loading="lazy">
+            <figcaption>By precipitation.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="modeling">
+        <div class="section-grid">
+          <div>
+            <p class="eyebrow">Machine learning</p>
+            <h2>Model comparison.</h2>
+          </div>
+          <div class="section-copy">
+            <p>
+              All tuned models improve over the majority-class baseline, which
+              confirms that the selected temporal, operational, and weather
+              features contain predictive signal. XGBoost has the best overall
+              test performance in this experiment: 0.648 accuracy, 0.642
+              delayed-class F1, and 0.710 ROC-AUC. The decision tree has the
+              highest delayed-class recall, but it gives up more specificity,
+              meaning it predicts delays more aggressively.
+            </p>
+          </div>
+        </div>
+        <div class="figure-grid two">
+          <figure class="figure-card">
+            <img src="assets/figures/ml_roc_curves.png" alt="ROC curves comparing the machine learning models." loading="lazy">
+            <figcaption>ROC curves for the evaluated models.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/figures/ml_confusion_matrices.png" alt="Confusion matrices for the evaluated models." loading="lazy">
+            <figcaption>The models trade off delayed recall and false positives differently.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section alt" id="errors">
+        <div class="section-heading">
+          <p class="eyebrow">Error analysis</p>
+          <h2>Where the model struggles.</h2>
+          <p>
+            For the selected XGBoost model, the confusion matrix shows 6,037
+            true negatives, 3,515 false positives, 2,885 false negatives, and
+            5,727 true positives on our test set with 18,164 rows. This means
+            the model catches about two thirds of actual delayed arrivals, but
+            it still creates many false delay alarms.
+          </p>
+          <p>
+            I grouped test set predictions by scheduled arrival hour and by
+            broad arrival periods. The highest hourly error rate occurs at
+            19:00, where 38.9% of test rows are misclassified. This hour belongs
+            to the PM rush window. AM rush arrivals have a 34.7% overall error
+            rate, but the main issue is false positives: 45.1% of on-time or
+            early AM-rush arrivals are predicted as delayed.
+          </p>
+          <p>
+            Midday has a different failure mode. Its overall error rate is
+            35.9%, but the false-negative rate among actual delays is 50.2%. In
+            other words, during midday the model is more likely to miss real
+            delays.
+          </p>
+        </div>
+        <div class="insight-grid">
+          <article>
+            <span>19:00</span>
+            <p>Highest scheduled-hour error rate in the held-out test set.</p>
+          </article>
+          <article>
+            <span>45.1%</span>
+            <p>False-positive rate among on-time or early AM-rush arrivals.</p>
+          </article>
+          <article>
+            <span>50.2%</span>
+            <p>False-negative rate among actual midday delays.</p>
+          </article>
+        </div>
+        <div class="figure-grid two">
+          <figure class="figure-card">
+            <img src="assets/figures/ml_error_analysis_by_hour.png" alt="Line chart of error rates by scheduled arrival hour." loading="lazy">
+            <figcaption>XGBoost error rates by scheduled arrival hour.</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="assets/figures/ml_error_analysis_by_period.png" alt="Bar chart of error rate by broad arrival period." loading="lazy">
+            <figcaption>Broad arrival periods help summarize the model's main failure modes.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section" id="future">
+        <div class="section-grid">
+          <div>
+            <p class="eyebrow">Limitations and future work</p>
+            <h2>Limitations and future work.</h2>
+          </div>
+          <div class="section-copy">
+            <p>
+              The main limitation is that the dataset is arrival-level but is
+              not aware of the trip history. The model sees the scheduled hour,
+              line, train type, station, and weather, but it does not see the
+              train's earlier stops or whether it was already delayed upstream.
+              This is likely why performance remains moderate even for the best
+              model. A future version should reconstruct train trajectories and
+              add upstream delay features.
+            </p>
+            <p>
+              A second limitation is the seasonal sampling design. The project
+              uses four 30-day windows instead of a full year. This gives
+              seasonal coverage, but it may miss unusual disruptions, holiday
+              effects, construction periods, and extreme weather days outside
+              those windows. A full-year sample would make the seasonal and
+              weather findings more stable.
+            </p>
+            <p>
+              The weather merge is hourly, so it cannot capture short bursts of
+              precipitation, platform-level conditions, or localized
+              disruptions. Adding more granular weather, event, maintenance, and
+              service-alert data could improve both explanation and prediction.
+            </p>
+            <p>
+              There are also modeling limitations. The final prediction target
+              treats every positive delay as delayed, even if the delay is only
+              one minute. A future extension could compare multiple thresholds,
+              such as delays greater than 3, 5, or 10 minutes. This would better
+              separate operationally meaningful delays from minor timetable
+              noise.
+            </p>
+            <p>
+              Finally, the analysis is geographically focused on Lausanne. That
+              makes the project coherent, but the conclusions should not
+              automatically be generalized to all Swiss stations. A broader
+              study could compare Lausanne with other stations and evaluate
+              whether the same features matter across different rail network
+              contexts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>DSA210 Introduction to Data Science, Spring 2026</p>
+    </footer>
+
+    <dialog class="image-dialog" aria-label="Expanded figure">
+      <button class="dialog-close" type="button">Close</button>
+      <img alt="Expanded selected figure">
+      <p></p>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
