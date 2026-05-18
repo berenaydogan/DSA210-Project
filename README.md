@@ -94,9 +94,9 @@ DSA210-Project/
 |   +-- script.js
 |   +-- .nojekyll
 |   +-- assets/
+|   +-- Final_Report.pdf
+|   +-- Project_Proposal.pdf
 +-- AI_USAGE.md
-+-- Final_Report.pdf
-+-- Project_Proposal.pdf
 +-- README.md
 +-- requirements.txt
 ```
@@ -123,9 +123,9 @@ DSA210-Project/
   figures, hyperparameter plots, and error-analysis figures.
 - [outputs/tables](outputs/tables) contains exported hypothesis-test tables, ML
   modeling tables, and error-analysis tables.
-- [docs/](docs) contains the static GitHub Pages presentation website and its
-  copied chart assets.
-- [Final_Report.pdf](Final_Report.pdf) is the final submitted report PDF.
+- [docs/](docs) contains the static GitHub Pages presentation website, copied
+  chart assets, [Final_Report.pdf](docs/Final_Report.pdf), and
+  [Project_Proposal.pdf](docs/Project_Proposal.pdf).
 - [AI_USAGE.md](AI_USAGE.md) records AI assistance, representative prompts, and
   review decisions.
 
@@ -196,7 +196,8 @@ Project artifacts kept in the repo:
 and `ml_error_analysis_by_weekend.csv`
 - website files under `docs/`, including selected copied chart assets under
   `docs/assets/figures/`
-- `Final_Report.pdf`
+- `docs/Final_Report.pdf`
+- `docs/Project_Proposal.pdf`
 
 Some rebuildable files are intentionally ignored:
 
